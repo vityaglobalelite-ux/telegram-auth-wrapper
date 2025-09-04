@@ -9,11 +9,16 @@
   <script>
     window.Telegram.WebApp.ready();
 
-    const initData = window.Telegram.WebApp.initData;
+    // Берём initData или initDataUnsafe (на iOS initData может быть пустым)
+    let initData = window.Telegram.WebApp.initData;
+    if (!initData || initData.length === 0) {
+      initData = JSON.stringify(window.Telegram.WebApp.initDataUnsafe);
+    }
 
-    // Перенаправляем на твоё FF-приложение, передавая initData как параметр в URL
-    const ffAppUrl = "https://buenospadeltest.flutterflow.app"; // <- сюда впиши ссылку на твоё FF приложение
+    // Ссылка на твоё FF-приложение
+    const ffAppUrl = "https://buenospadeltest.flutterflow.app";
 
+    // Перенаправляем, добавляя initData в query
     window.location.href = ffAppUrl + "?initData=" + encodeURIComponent(initData);
   </script>
 </body>
